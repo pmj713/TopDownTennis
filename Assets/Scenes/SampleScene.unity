@@ -147,13 +147,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58213297}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.5, y: 0.2, z: 0.4}
   m_LocalScale: {x: 0.5, y: 0.05, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1138099302}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!23 &58213299
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -781,6 +781,7 @@ MonoBehaviour:
   racket: {fileID: 1712892118}
   ball: {fileID: 314690651}
   ballController: {fileID: 314690652}
+  serveController: {fileID: 1138099304}
   nearSide: 0
   swingKey: 56
   aimLeftKey: 61
@@ -1911,8 +1912,9 @@ MonoBehaviour:
   racket: {fileID: 58213298}
   ball: {fileID: 314690651}
   ballController: {fileID: 314690652}
+  serveController: {fileID: 1138099304}
   nearSide: 1
-  swingKey: 20
+  swingKey: 2
   aimLeftKey: 15
   aimRightKey: 18
   hitRange: 1.5

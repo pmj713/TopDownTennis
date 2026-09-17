@@ -6,6 +6,7 @@ public class RallyHitController : MonoBehaviour
     public Transform racket;
     public Rigidbody ball;
     public BallController3D ballController;
+    public ServeController serveController;
     public bool nearSide = true;
 
     public Key swingKey = Key.Enter;
@@ -30,6 +31,12 @@ public class RallyHitController : MonoBehaviour
     void Update()
     {
         if (ball == null || ballController == null) return;
+
+        // 지금 내가 서브하는 중이면(토스/스윙 대기 등) 랠리 리턴으로 끼어들지 않음
+        bool iAmCurrentlyServing = serveController != null
+            && serveController.server == transform
+            && serveController.State != ServeController.ServeState.InPlay;
+        if (iAmCurrentlyServing) return;
 
         bool ballOnMySide = nearSide ? ballController.CurrentSide < 0 : ballController.CurrentSide > 0;
         if (!ballOnMySide) return;
