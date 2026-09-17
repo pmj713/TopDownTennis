@@ -199,7 +199,7 @@ public class TennisScoreManager : MonoBehaviour
         Debug.Log($"[점수] {(player1ServesThisGame ? "Player1" : "Player2")} 서브 게임 시작");
     }
 
-    string PointLabel()
+    public string PointLabel()
     {
         int p1 = Player1Points;
         int p2 = Player2Points;
