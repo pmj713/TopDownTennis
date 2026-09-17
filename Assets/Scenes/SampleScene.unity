@@ -247,10 +247,10 @@ MonoBehaviour:
   backswingTime: 0.08
   forwardSwingTime: 0.12
   recoveryTime: 0.15
-  backswingRotationEuler: {x: 15, y: -70, z: 0}
-  followThroughRotationEuler: {x: -20, y: 65, z: 0}
-  backswingLocalOffset: {x: -0.15, y: -0.05, z: -0.15}
-  followThroughLocalOffset: {x: 0.2, y: 0.1, z: 0.3}
+  backswingRotationEuler: {x: 15, y: 70, z: 0}
+  followThroughRotationEuler: {x: -20, y: -65, z: 0}
+  backswingLocalOffset: {x: 0.15, y: -0.05, z: -0.15}
+  followThroughLocalOffset: {x: -0.2, y: 0.1, z: 0.3}
 --- !u!1 &170314427
 GameObject:
   m_ObjectHideFlags: 0

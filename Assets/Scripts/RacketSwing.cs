@@ -7,10 +7,11 @@ public class RacketSwing : MonoBehaviour
     public float forwardSwingTime = 0.12f;
     public float recoveryTime = 0.15f;
 
-    public Vector3 backswingRotationEuler = new Vector3(15f, -70f, 0f);
-    public Vector3 followThroughRotationEuler = new Vector3(-20f, 65f, 0f);
-    public Vector3 backswingLocalOffset = new Vector3(-0.15f, -0.05f, -0.15f);
-    public Vector3 followThroughLocalOffset = new Vector3(0.2f, 0.1f, 0.3f);
+    // 오른쪽에서 왼쪽으로 휘두르는 포핸드 동작 (오른손 기준, +X가 오른쪽)
+    public Vector3 backswingRotationEuler = new Vector3(15f, 70f, 0f);
+    public Vector3 followThroughRotationEuler = new Vector3(-20f, -65f, 0f);
+    public Vector3 backswingLocalOffset = new Vector3(0.15f, -0.05f, -0.15f);
+    public Vector3 followThroughLocalOffset = new Vector3(-0.2f, 0.1f, 0.3f);
 
     Quaternion restRotation;
     Vector3 restPosition;
@@ -22,18 +23,31 @@ public class RacketSwing : MonoBehaviour
         restPosition = transform.localPosition;
     }
 
-    public void PlaySwing()
+    // mirrored=false: 포핸드 (오른쪽 -> 왼쪽). mirrored=true: 백핸드 (왼쪽 -> 오른쪽).
+    public void PlaySwing(bool mirrored = false)
     {
         if (active != null) StopCoroutine(active);
-        active = StartCoroutine(SwingRoutine());
+        active = StartCoroutine(SwingRoutine(mirrored));
     }
 
-    IEnumerator SwingRoutine()
+    IEnumerator SwingRoutine(bool mirrored)
     {
-        Quaternion backRot = restRotation * Quaternion.Euler(backswingRotationEuler);
-        Quaternion throughRot = restRotation * Quaternion.Euler(followThroughRotationEuler);
-        Vector3 backPos = restPosition + backswingLocalOffset;
-        Vector3 throughPos = restPosition + followThroughLocalOffset;
+        float sign = mirrored ? -1f : 1f;
+
+        Vector3 backRotEuler = backswingRotationEuler;
+        Vector3 throughRotEuler = followThroughRotationEuler;
+        backRotEuler.y *= sign;
+        throughRotEuler.y *= sign;
+
+        Vector3 backOffset = backswingLocalOffset;
+        Vector3 throughOffset = followThroughLocalOffset;
+        backOffset.x *= sign;
+        throughOffset.x *= sign;
+
+        Quaternion backRot = restRotation * Quaternion.Euler(backRotEuler);
+        Quaternion throughRot = restRotation * Quaternion.Euler(throughRotEuler);
+        Vector3 backPos = restPosition + backOffset;
+        Vector3 throughPos = restPosition + throughOffset;
 
         yield return Ease(restRotation, backRot, restPosition, backPos, backswingTime);
         yield return Ease(backRot, throughRot, backPos, throughPos, forwardSwingTime);

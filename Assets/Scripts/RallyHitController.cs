@@ -60,7 +60,11 @@ public class RallyHitController : MonoBehaviour
         float targetZ = nearSide ? targetDepth : -targetDepth;
         Vector3 target = new Vector3(Mathf.Clamp(aim * aimSpread, -3.8f, 3.8f), 0.1f, targetZ);
 
-        racketSwing?.PlaySwing();
+        // 공이 내 오른쪽에 있으면 포핸드(오른쪽->왼쪽), 왼쪽에 있으면 백핸드(왼쪽->오른쪽)
+        bool ballOnMyRight = nearSide
+            ? ball.position.x > transform.position.x
+            : ball.position.x < transform.position.x;
+        racketSwing?.PlaySwing(mirrored: !ballOnMyRight);
 
         Vector3 start = ball.position;
         float t = returnFlightTime;
