@@ -64,5 +64,7 @@ public class RallyHitController : MonoBehaviour
 
         ball.linearVelocity = velocity;
         Debug.Log($"[Rally] {name} returned the ball -> target={target}, velocity={velocity}");
+
+        TennisScoreManager.Instance?.RecordHit(nearSide ? -1 : 1);
     }
 }

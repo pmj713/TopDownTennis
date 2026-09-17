@@ -16,6 +16,7 @@ public class ServeController : MonoBehaviour
     public float swingWindowDuration = 0.4f;
     public float serveFlightTime = 0.9f;
     public Vector3 handOffset = new Vector3(0.5f, 1.5f, 0.3f);
+    public bool serverIsNearSide = true;
 
     public ServeState State { get; private set; } = ServeState.WaitingToServe;
 
@@ -94,6 +95,8 @@ public class ServeController : MonoBehaviour
         ball.linearVelocity = velocity;
         State = ServeState.InPlay;
         Debug.Log($"[Serve] Hit! velocity={velocity}");
+
+        TennisScoreManager.Instance?.RecordHit(serverIsNearSide ? -1 : 1);
     }
 
     void MissServe()
@@ -101,6 +104,12 @@ public class ServeController : MonoBehaviour
         faultCount++;
         State = ServeState.Fault;
         Debug.Log(faultCount >= 2 ? "[Serve] Double fault!" : "[Serve] Fault");
+
+        if (faultCount >= 2)
+        {
+            TennisScoreManager.Instance?.AwardPoint(serverIsNearSide ? 1 : -1);
+        }
+
         Invoke(nameof(ResetForNextServe), 1.5f);
     }
 
