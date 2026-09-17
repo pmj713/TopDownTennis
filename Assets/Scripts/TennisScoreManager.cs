@@ -34,7 +34,7 @@ public class TennisScoreManager : MonoBehaviour
         ball.OnHitNet -= HandleHitNet;
     }
 
-    // side: -1 = Player1 (near), +1 = Player2 (far)
+    // side: -1 = Player1(가까운 쪽), +1 = Player2(먼 쪽)
     public void RecordHit(int side)
     {
         lastHitterSide = side;
