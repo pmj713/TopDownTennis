@@ -639,6 +639,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TennisScoreManager
   ball: {fileID: 314690652}
+  serveController: {fileID: 1138099304}
+  player1: {fileID: 1138099302}
+  player1Racket: {fileID: 58213298}
+  player2: {fileID: 326370516}
+  player2Racket: {fileID: 1712892118}
+  serveTargetFromPlayer1: {fileID: 503368078}
+  serveTargetFromPlayer2: {fileID: 1462407276}
+  setsToWinMatch: 2
+  gamesToWinSet: 6
+  tiebreakTo: 7
 --- !u!1 &326370512
 GameObject:
   m_ObjectHideFlags: 0
@@ -1798,6 +1808,9 @@ MonoBehaviour:
   serveFlightTime: 0.9
   handOffset: {x: 0.5, y: 1.5, z: 0.3}
   serverIsNearSide: 1
+  aiServer: 0
+  aiTossDelay: 1
+  aiSwingDelay: 0.15
 --- !u!114 &1138099305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1999,6 +2012,37 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.01, z: -6.4}
   m_LocalScale: {x: 8.23, y: 0.02, z: 0.05}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1462407275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1462407276}
+  m_Layer: 0
+  m_Name: ServeTargetFromPlayer2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1462407276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462407275}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2, y: 0.05, z: -3.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2360,3 +2404,4 @@ SceneRoots:
   - {fileID: 503368078}
   - {fileID: 326370516}
   - {fileID: 325620710}
+  - {fileID: 1462407276}

@@ -18,27 +18,44 @@ public class ServeController : MonoBehaviour
     public Vector3 handOffset = new Vector3(0.5f, 1.5f, 0.3f);
     public bool serverIsNearSide = true;
 
+    public bool aiServer = false;
+    public float aiTossDelay = 1f;
+    public float aiSwingDelay = 0.15f;
+
     public ServeState State { get; private set; } = ServeState.WaitingToServe;
 
     int faultCount;
     float windowOpenTime;
+    float stateEnterTime;
     RacketSwing racketSwing;
 
     void Awake()
+    {
+        RefreshRacket();
+    }
+
+    void RefreshRacket()
     {
         racketSwing = racket ? racket.GetComponent<RacketSwing>() : null;
     }
 
     void Update()
     {
+        if (ball == null) return;
         var kb = Keyboard.current;
-        if (kb == null || ball == null) return;
 
         switch (State)
         {
             case ServeState.WaitingToServe:
                 HoldBallAtHand();
-                if (kb[tossKey].wasPressedThisFrame) Toss();
+                if (aiServer)
+                {
+                    if (Time.time - stateEnterTime > aiTossDelay) Toss();
+                }
+                else if (kb != null && kb[tossKey].wasPressedThisFrame)
+                {
+                    Toss();
+                }
                 break;
 
             case ServeState.Tossing:
@@ -51,7 +68,11 @@ public class ServeController : MonoBehaviour
                 break;
 
             case ServeState.SwingWindow:
-                if (kb[swingKey].wasPressedThisFrame)
+                if (aiServer)
+                {
+                    if (Time.time - windowOpenTime > aiSwingDelay) HitServe();
+                }
+                else if (kb != null && kb[swingKey].wasPressedThisFrame)
                 {
                     HitServe();
                 }
@@ -66,7 +87,8 @@ public class ServeController : MonoBehaviour
     void HoldBallAtHand()
     {
         ball.isKinematic = true;
-        ball.position = server.position + handOffset;
+        Vector3 offset = new Vector3(handOffset.x, handOffset.y, serverIsNearSide ? handOffset.z : -handOffset.z);
+        ball.position = server.position + offset;
     }
 
     void Toss()
@@ -103,6 +125,7 @@ public class ServeController : MonoBehaviour
     {
         faultCount++;
         State = ServeState.Fault;
+        stateEnterTime = Time.time;
         Debug.Log(faultCount >= 2 ? "[Serve] Double fault!" : "[Serve] Fault");
 
         if (faultCount >= 2)
@@ -117,5 +140,22 @@ public class ServeController : MonoBehaviour
     {
         if (faultCount >= 2) faultCount = 0;
         State = ServeState.WaitingToServe;
+        stateEnterTime = Time.time;
+    }
+
+    // Called by TennisScoreManager at the start of every game to hand serve to the correct player.
+    public void ConfigureForNewGame(Transform newServer, Transform newRacket, Transform newTarget, bool nearSide, bool ai)
+    {
+        server = newServer;
+        racket = newRacket;
+        serveTarget = newTarget;
+        serverIsNearSide = nearSide;
+        aiServer = ai;
+        RefreshRacket();
+
+        CancelInvoke(nameof(ResetForNextServe));
+        faultCount = 0;
+        State = ServeState.WaitingToServe;
+        stateEnterTime = Time.time;
     }
 }
