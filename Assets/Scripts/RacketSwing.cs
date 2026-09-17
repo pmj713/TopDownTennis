@@ -44,8 +44,10 @@ public class RacketSwing : MonoBehaviour
         backOffset.x *= sign;
         throughOffset.x *= sign;
 
-        Quaternion backRot = restRotation * Quaternion.Euler(backRotEuler);
-        Quaternion throughRot = restRotation * Quaternion.Euler(throughRotEuler);
+        // 부모(플레이어) 기준 좌표축으로 회전을 적용 (라켓 자체를 X축으로 돌려놔도
+        // 스윙이 항상 같은 좌우/앞뒤 평면에서 일어나도록 함)
+        Quaternion backRot = Quaternion.Euler(backRotEuler) * restRotation;
+        Quaternion throughRot = Quaternion.Euler(throughRotEuler) * restRotation;
         Vector3 backPos = restPosition + backOffset;
         Vector3 throughPos = restPosition + throughOffset;
 
