@@ -8,16 +8,21 @@ public class TennisPlayerController : MonoBehaviour
     public float halfCourtLength = 11.885f;
     public bool nearSide = true;
 
+    public Key upKey = Key.W;
+    public Key downKey = Key.S;
+    public Key leftKey = Key.A;
+    public Key rightKey = Key.D;
+
     void Update()
     {
         var kb = Keyboard.current;
         if (kb == null) return;
 
         Vector3 move = Vector3.zero;
-        if (kb.wKey.isPressed) move.z += 1f;
-        if (kb.sKey.isPressed) move.z -= 1f;
-        if (kb.aKey.isPressed) move.x -= 1f;
-        if (kb.dKey.isPressed) move.x += 1f;
+        if (kb[upKey].isPressed) move.z += 1f;
+        if (kb[downKey].isPressed) move.z -= 1f;
+        if (kb[leftKey].isPressed) move.x -= 1f;
+        if (kb[rightKey].isPressed) move.x += 1f;
 
         if (move.sqrMagnitude > 1f) move.Normalize();
 

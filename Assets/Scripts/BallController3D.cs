@@ -10,6 +10,8 @@ public class BallController3D : MonoBehaviour
     public event System.Action<int, bool, int> OnBounced;
     public event System.Action OnHitNet;
 
+    public int CurrentSide => currentSide;
+
     Rigidbody rb;
     int currentSide;
     int bounceCountOnCurrentSide;
