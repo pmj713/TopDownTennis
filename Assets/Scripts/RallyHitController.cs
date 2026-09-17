@@ -17,6 +17,9 @@ public class RallyHitController : MonoBehaviour
     public float aimSpread = 2.5f;
     public float targetDepth = 6f;
 
+    public bool aiControlled = false;
+    public float aiAimJitter = 0.6f;
+
     RacketSwing racketSwing;
 
     void Awake()
@@ -26,9 +29,7 @@ public class RallyHitController : MonoBehaviour
 
     void Update()
     {
-        var kb = Keyboard.current;
-        if (kb == null || ball == null || ballController == null) return;
-        if (!kb[swingKey].wasPressedThisFrame) return;
+        if (ball == null || ballController == null) return;
 
         bool ballOnMySide = nearSide ? ballController.CurrentSide < 0 : ballController.CurrentSide > 0;
         if (!ballOnMySide) return;
@@ -37,6 +38,15 @@ public class RallyHitController : MonoBehaviour
             new Vector2(transform.position.x, transform.position.z),
             new Vector2(ball.position.x, ball.position.z));
         if (dist > hitRange) return;
+
+        if (aiControlled)
+        {
+            PerformHit(Random.Range(-aiAimJitter, aiAimJitter));
+            return;
+        }
+
+        var kb = Keyboard.current;
+        if (kb == null || !kb[swingKey].wasPressedThisFrame) return;
 
         float aim = 0f;
         if (kb[aimLeftKey].isPressed) aim -= 1f;
