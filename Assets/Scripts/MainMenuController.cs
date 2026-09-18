@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     public string gameplaySceneName = "SampleScene";
+    public GameObject tutorialPanel;
 
     public void OnSinglePlayClicked()
     {
@@ -12,7 +13,12 @@ public class MainMenuController : MonoBehaviour
 
     public void OnTutorialClicked()
     {
-        Debug.Log("[Menu] 튜토리얼 - 준비 중입니다.");
+        if (tutorialPanel != null) tutorialPanel.SetActive(true);
+    }
+
+    public void OnTutorialBackClicked()
+    {
+        if (tutorialPanel != null) tutorialPanel.SetActive(false);
     }
 
     public void OnMultiplayerClicked()
