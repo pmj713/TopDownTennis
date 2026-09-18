@@ -5,6 +5,7 @@ public class MainMenuController : MonoBehaviour
 {
     public string gameplaySceneName = "SampleScene";
     public GameObject tutorialPanel;
+    public GameObject multiplayerPanel;
 
     public void OnSinglePlayClicked()
     {
@@ -23,6 +24,11 @@ public class MainMenuController : MonoBehaviour
 
     public void OnMultiplayerClicked()
     {
-        Debug.Log("[Menu] 멀티플레이 - 준비 중입니다.");
+        if (multiplayerPanel != null) multiplayerPanel.SetActive(true);
+    }
+
+    public void HideMultiplayerPanel()
+    {
+        if (multiplayerPanel != null) multiplayerPanel.SetActive(false);
     }
 }
