@@ -109,6 +109,7 @@ public class TennisScoreManager : MonoBehaviour
         else
         {
             Debug.Log($"[점수] {(side < 0 ? "Player1" : "Player2")} 득점 -> {PointLabel()}");
+            serveController?.ResetForNextPoint();
         }
     }
 
@@ -124,6 +125,7 @@ public class TennisScoreManager : MonoBehaviour
 
         if (p1Wins) WinGame(1, isTiebreakWin: true);
         else if (p2Wins) WinGame(2, isTiebreakWin: true);
+        else serveController?.ResetForNextPoint();
     }
 
     void WinGame(int winner, bool isTiebreakWin = false)

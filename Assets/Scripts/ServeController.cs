@@ -153,6 +153,12 @@ public class ServeController : MonoBehaviour
         aiServer = ai;
         RefreshRacket();
 
+        ResetForNextPoint();
+    }
+
+    // 게임 도중 한 포인트가 끝날 때마다 호출 (서버/라켓/타겟은 그대로, 다음 서브를 위해 상태만 초기화)
+    public void ResetForNextPoint()
+    {
         CancelInvoke(nameof(ResetForNextServe));
         faultCount = 0;
         State = ServeState.WaitingToServe;
